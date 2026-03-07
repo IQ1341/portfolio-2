@@ -1,0 +1,2037 @@
+<!DOCTYPE html>
+<html lang="en" class="scroll-smooth">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Muhammad Iqbal — Web Developer & IoT Enthusiast</title>
+  <script src="https://cdn.jsdelivr.net/npm/@emailjs/browser@4/dist/email.min.js"></script>
+  <script src="https://cdn.tailwindcss.com"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+  <link rel="stylesheet" href="style.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+  
+
+  <script>
+    tailwind.config = {
+      darkMode: 'class',
+      theme: {
+        extend: {
+          fontFamily: {
+            display: ['Syne', 'sans-serif'],
+            body: ['DM Sans', 'sans-serif'],
+            mono: ['JetBrains Mono', 'monospace'],
+          },
+          colors: {
+            accent: {
+              DEFAULT: '#00D4AA',
+              dark: '#00B894',
+              light: '#55EFC4',
+            },
+            amber: {
+              accent: '#F59E0B',
+            }
+          },
+          animation: {
+            'fade-up': 'fadeUp 0.7s ease forwards',
+            'fade-in': 'fadeIn 0.5s ease forwards',
+            'slide-left': 'slideLeft 0.7s ease forwards',
+            'pulse-slow': 'pulse 3s infinite',
+            'float': 'float 6s ease-in-out infinite',
+            'spin-slow': 'spin 8s linear infinite',
+          },
+          keyframes: {
+            fadeUp: {
+              '0%': { opacity: '0', transform: 'translateY(30px)' },
+              '100%': { opacity: '1', transform: 'translateY(0)' },
+            },
+            fadeIn: {
+              '0%': { opacity: '0' },
+              '100%': { opacity: '1' },
+            },
+            slideLeft: {
+              '0%': { opacity: '0', transform: 'translateX(-30px)' },
+              '100%': { opacity: '1', transform: 'translateX(0)' },
+            },
+            float: {
+              '0%, 100%': { transform: 'translateY(0px)' },
+              '50%': { transform: 'translateY(-12px)' },
+            },
+          },
+        }
+      }
+    }
+  </script>
+</head>
+
+
+
+<body class="bg-white dark:bg-zinc-950 text-zinc-800 dark:text-zinc-100 overflow-x-hidden">
+
+<div id="preloader">
+
+  <div class="pre-scene">
+
+    <!-- 3D Cube -->
+    <div class="cube-wrap">
+      <div class="cube">
+        <div class="face face-front">
+          <span>MI</span>
+        </div>
+        <div class="face face-back"></div>
+        <div class="face face-left"></div>
+        <div class="face face-right"></div>
+        <div class="face face-top"></div>
+        <div class="face face-bottom"></div>
+      </div>
+
+      <!-- Orbit ring -->
+      <div class="orbit orbit-1">
+        <div class="orbit-dot"></div>
+      </div>
+      <div class="orbit orbit-2">
+        <div class="orbit-dot"></div>
+      </div>
+
+      <!-- Ground shadow -->
+      <div class="cube-shadow"></div>
+    </div>
+
+    <!-- Minimal progress -->
+    <div class="pre-bar-wrap">
+      <div class="pre-bar" id="preBar"></div>
+    </div>
+
+  </div>
+
+</div>
+
+<button id="backToTop" aria-label="Back to top">
+  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5">
+    <path stroke-linecap="round" stroke-linejoin="round" d="M5 15l7-7 7 7"/>
+  </svg>
+  <span class="btt-label">TOP</span>
+</button>
+
+
+<!-- Custom cursor -->
+<!-- Hapus cursor-dot dan cursor-ring lama, ganti dengan: -->
+<div id="cursor">
+  <div class="cur-ring"></div>
+  <div class="cur-cross">
+    <span></span><span></span><span></span><span></span>
+  </div>
+  <div class="cur-dot"></div>
+</div>
+
+<!-- ==================== FLOATING SIDEBAR NAV ==================== -->
+<nav id="main-nav" class="fixed top-0 left-0 right-0 z-50 px-6 py-4">
+  <div class="max-w-6xl mx-auto flex items-center justify-between glass bg-white/80 dark:bg-zinc-900/80 border border-zinc-200/50 dark:border-zinc-700/50 rounded-2xl px-6 py-3 shadow-lg shadow-zinc-200/20 dark:shadow-black/30">
+    
+    <!-- Logo -->
+    <a href="#hero" class="font-display font-800 text-xl tracking-tight">
+      <span class="gradient-text">MI</span><span class="text-zinc-800 dark:text-zinc-100">.</span>
+    </a>
+
+    <!-- Desktop Nav -->
+    <ul class="hidden md:flex items-center gap-8 font-body text-sm font-medium">
+      <li><a href="#hero" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="hero">Home</a></li>
+      <li><a href="#about" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="about">About</a></li>
+      <li><a href="#skills" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="skills">Skills</a></li>
+      <li><a href="#projects" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="projects">Projects</a></li>
+      <li><a href="#experience" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="experience">Experience</a></li>
+      <li><a href="#education" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="education">Education</a></li>
+      <li><a href="#gallery" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="contact">Gallery</a></li>
+      <li><a href="#contact" class="nav-link text-zinc-500 dark:text-zinc-400 hover:text-accent transition-colors" data-section="contact">Contact</a></li>
+    </ul>
+
+    <!-- Right Controls -->
+     <!-- Music Player -->
+
+    <div class="flex items-center gap-4">
+  <!-- Dark mode toggle -->
+  <button id="theme-toggle" aria-label="Toggle dark mode"
+    class="w-9 h-9 rounded-xl flex items-center justify-center border border-zinc-200 dark:border-zinc-700 bg-white dark:bg-zinc-900 hover:border-accent hover:text-accent dark:hover:border-accent dark:hover:text-accent text-zinc-500 dark:text-zinc-400 transition-all duration-200 hover:-translate-y-0.5">
+    <!-- Sun (tampil di dark mode) -->
+    <svg id="icon-sun" class="w-4 h-4 hidden dark:block" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 3v1m0 16v1m9-9h-1M4 12H3m15.364-6.364l-.707.707M6.343 17.657l-.707.707M17.657 17.657l-.707-.707M6.343 6.343l-.707-.707M12 8a4 4 0 100 8 4 4 0 000-8z"/>
+    </svg>
+    <!-- Moon (tampil di light mode) -->
+    <svg id="icon-moon" class="w-4 h-4 block dark:hidden" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M20.354 15.354A9 9 0 018.646 3.646 9.003 9.003 0 0012 21a9.003 9.003 0 008.354-5.646z"/>
+    </svg>
+  </button>
+
+  <!-- Mobile hamburger -->
+  <button id="mobile-btn" class="md:hidden p-2 rounded-lg hover:bg-zinc-100 dark:hover:bg-zinc-800 transition-colors" aria-label="Menu">
+    <svg id="hamburger-icon" class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"/>
+    </svg>
+  </button>
+</div>
+  </div>
+
+  <!-- Mobile menu -->
+  <div id="mobile-menu" class="md:hidden mt-2 glass bg-white/90 dark:bg-zinc-900/90 border border-zinc-200/50 dark:border-zinc-700/50 rounded-2xl px-6 shadow-lg">
+    <ul class="flex flex-col gap-4 py-5 font-body text-sm font-medium">
+      <li><a href="#hero" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Home</a></li>
+      <li><a href="#about" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">About</a></li>
+      <li><a href="#skills" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Skills</a></li>
+      <li><a href="#projects" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Projects</a></li>
+      <li><a href="#experience" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Experience</a></li>
+      <li><a href="#education" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Education</a></li>
+      <li><a href="#gallery" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Gallery</a></li>
+      <li><a href="#contact" class="mobile-nav-link block text-zinc-600 dark:text-zinc-300 hover:text-accent transition-colors" onclick="closeMobile()">Contact</a></li>
+    </ul>
+  </div>
+</nav>
+
+<!-- ==================== HERO SECTION ==================== -->
+<section id="hero" class="relative min-h-screen flex items-center grid-bg overflow-hidden">
+
+  <!-- Decorative blobs -->
+  <div class="absolute top-1/4 -right-24 w-96 h-96 bg-accent/10 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-1/4 -left-24 w-80 h-80 bg-blue-500/10 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Floating dots -->
+  <div class="absolute top-32 right-16 w-3 h-3 bg-accent rounded-full animate-float opacity-60"></div>
+  <div class="absolute top-48 right-32 w-2 h-2 bg-blue-400 rounded-full animate-float opacity-40" style="animation-delay:1s"></div>
+  <div class="absolute bottom-32 left-20 w-2 h-2 bg-accent rounded-full animate-float opacity-50" style="animation-delay:2s"></div>
+
+  <div class="max-w-6xl mx-auto px-6 pt-28 pb-16 grid lg:grid-cols-2 gap-16 items-center">
+
+    <!-- ── Left: Text content ── -->
+    <div class="space-y-8">
+
+      <!-- Available badge -->
+      <div class="inline-flex items-center gap-2 bg-accent/10 border border-accent/20 rounded-full px-4 py-1.5 text-sm font-mono text-accent animate-fade-in">
+        <span class="relative flex w-2 h-2">
+          <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
+          <span class="relative inline-flex w-2 h-2 rounded-full bg-accent"></span>
+        </span>
+        Available for work
+      </div>
+
+      <!-- Name + Typing -->
+      <div class="space-y-3">
+        <h1 class="font-display font-800 text-5xl md:text-6xl xl:text-7xl leading-none tracking-tight text-zinc-900 dark:text-white">
+          <span class="block animate-fade-up" style="animation-delay:0.1s; opacity:0">Muhammad</span>
+          <span class="block gradient-text animate-fade-up" style="animation-delay:0.25s; opacity:0">Iqbal</span>
+        </h1>
+        <p class="font-mono text-sm text-accent/80 animate-fade-up flex items-center gap-1" style="animation-delay:0.35s; opacity:0">
+          <span class="text-zinc-400 dark:text-zinc-600">&lt;</span>
+          <span id="typingTarget" class="text-accent"></span>
+          <span class="typing-cursor">|</span>
+          <span class="text-zinc-400 dark:text-zinc-600">/&gt;</span>
+        </p>
+      </div>
+
+      <!-- Description -->
+      <p class="text-zinc-500 dark:text-zinc-400 text-lg leading-relaxed max-w-md animate-fade-up" style="animation-delay:0.45s; opacity:0">
+        I design and build <strong class="text-zinc-700 dark:text-zinc-200">scalable web applications</strong> and
+        <strong class="text-zinc-700 dark:text-zinc-200">backend systems</strong> with a strong focus on performance,
+        maintainability, and real-world usability. Transforming ideas into reliable digital solutions.
+      </p>
+
+      <!-- Buttons -->
+      <div class="flex flex-wrap gap-4 animate-fade-up" style="animation-delay:0.55s; opacity:0">
+        <a href="https://www.devgoo.my.id/" target="_blank"
+          class="group inline-flex items-center gap-2 bg-accent hover:bg-accent-dark text-zinc-900 font-display font-700 text-sm px-6 py-3 rounded-xl transition-all duration-200 shadow-lg shadow-accent/30 hover:shadow-accent/50 hover:-translate-y-0.5">
+          Order Service
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+          </svg>
+        </a>
+        <a id="cvDownloadBtn" href="https://drive.google.com/uc?export=download&id=1JYA8lzfYKZDvkqNT0P535R9esNyqAKr5" download
+  class="inline-flex items-center gap-2 border border-zinc-300 dark:border-zinc-700 text-zinc-700 dark:text-zinc-300 hover:border-accent hover:text-accent font-display font-600 text-sm px-6 py-3 rounded-xl transition-all duration-200 hover:-translate-y-0.5 relative group">
+  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"/>
+  </svg>
+  Download CV
+  <!-- Download count badge -->
+  <span id="cvCount"
+    class="hidden absolute -top-2 -right-2 bg-accent text-zinc-900 font-mono font-700 text-xs px-1.5 py-0.5 rounded-full min-w-[20px] text-center leading-tight shadow-lg shadow-accent/30">
+  </span>
+</a>
+      </div>
+
+      <!-- Stats row -->
+      <div class="flex flex-wrap gap-8 pt-2 animate-fade-up" style="animation-delay:0.65s; opacity:0">
+
+        <div class="group">
+          <div class="font-display font-800 text-2xl text-zinc-900 dark:text-white counter" data-target="3" data-suffix="+">0</div>
+          <div class="text-xs text-zinc-500 dark:text-zinc-400 font-mono">Years Coding</div>
+          <div class="h-0.5 w-0 bg-accent rounded-full mt-1.5 group-hover:w-full transition-all duration-500"></div>
+        </div>
+
+        <div class="w-px bg-zinc-200 dark:bg-zinc-800 self-stretch"></div>
+
+        <div class="group">
+          <div class="font-display font-800 text-2xl text-zinc-900 dark:text-white counter" data-target="70" data-suffix="+">0</div>
+          <div class="text-xs text-zinc-500 dark:text-zinc-400 font-mono">Projects Done</div>
+          <div class="h-0.5 w-0 bg-accent rounded-full mt-1.5 group-hover:w-full transition-all duration-500"></div>
+        </div>
+
+        <div class="w-px bg-zinc-200 dark:bg-zinc-800 self-stretch"></div>
+
+        <!-- Visitor Counter -->
+        <div class="group">
+          <div class="flex items-center gap-2">
+            <div class="font-display font-800 text-2xl text-zinc-900 dark:text-white">
+              <span id="vcDigit">···</span>
+            </div>
+            <span class="relative flex h-2 w-2 mb-0.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
+              <span class="relative inline-flex h-2 w-2 rounded-full bg-accent"></span>
+            </span>
+          </div>
+          <div class="text-xs text-zinc-500 dark:text-zinc-400 font-mono mt-0.5">Visitors</div>
+          <div class="h-0.5 w-0 bg-accent rounded-full mt-1.5 group-hover:w-full transition-all duration-500"></div>
+        </div>
+
+      </div>
+
+    </div><!-- /.left col -->
+
+    <!-- ── Right: Code card ── -->
+    <div class="hidden lg:flex justify-end animate-fade-in" style="animation-delay:0.5s; opacity:0">
+      <div class="relative">
+
+        <!-- Code window -->
+        <div class="w-96 rounded-2xl overflow-hidden shadow-2xl shadow-zinc-900/20 dark:shadow-black/50 border border-zinc-200 dark:border-zinc-800 animate-float">
+
+          <!-- Window chrome -->
+          <div class="bg-zinc-100 dark:bg-zinc-900 px-4 py-3 flex items-center gap-2 border-b border-zinc-200 dark:border-zinc-800">
+            <div class="w-3 h-3 rounded-full bg-red-400"></div>
+            <div class="w-3 h-3 rounded-full bg-yellow-400"></div>
+            <div class="w-3 h-3 rounded-full bg-green-400"></div>
+            <span class="ml-auto font-mono text-xs text-zinc-400">iqbal.profile.js</span>
+            <span class="flex items-center gap-1 font-mono text-xs text-accent/70">
+              <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+              live
+            </span>
+          </div>
+
+          <!-- Line numbers + code -->
+          <div class="bg-zinc-50 dark:bg-zinc-950 font-mono text-xs leading-relaxed flex">
+            <div class="select-none px-3 py-5 text-right border-r border-zinc-200 dark:border-zinc-800 text-zinc-300 dark:text-zinc-700 leading-relaxed">
+              <div>1</div><div>2</div><div>3</div><div>4</div>
+              <div>5</div><div>6</div><div>7</div><div>8</div>
+              <div>9</div><div>10</div><div>11</div><div>12</div>
+            </div>
+            <pre class="text-zinc-600 dark:text-zinc-400 whitespace-pre-wrap p-5 flex-1"><span class="text-purple-500 dark:text-purple-400">const</span> <span class="text-blue-600 dark:text-blue-400">developer</span> = {
+  <span class="text-green-600 dark:text-green-400">name</span>: <span class="text-amber-600 dark:text-amber-400">"Muhammad Iqbal"</span>,
+  <span class="text-green-600 dark:text-green-400">role</span>: <span class="text-amber-600 dark:text-amber-400">"Fullstack Developer"</span>,
+  <span class="text-green-600 dark:text-green-400">passion</span>: [
+    <span class="text-amber-600 dark:text-amber-400">"Web + IoT"</span>,
+    <span class="text-amber-600 dark:text-amber-400">"Backend Architecture"</span>,
+    <span class="text-amber-600 dark:text-amber-400">"Clean Scalable Code"</span>
+  ],
+  <span class="text-green-600 dark:text-green-400">available</span>: <span class="text-accent">true</span>,
+  <span class="text-green-600 dark:text-green-400">build</span>: () => {
+    <span class="text-purple-500 dark:text-purple-400">return</span> <span class="text-amber-600 dark:text-amber-400">"future"</span>;
+  }
+};</pre>
+          </div>
+
+          <!-- Status bar -->
+          <div class="bg-accent px-4 py-1.5 flex items-center justify-between">
+            <span class="font-mono text-xs text-zinc-900 font-medium">● JavaScript</span>
+            <span class="font-mono text-xs text-zinc-900/70">Ln 12, Col 1 · UTF-8</span>
+          </div>
+        </div>
+
+        <!-- Badge: Production Ready -->
+        <div class="absolute -bottom-4 -left-8 glass bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-4 py-3 shadow-xl flex items-center gap-3">
+          <div class="w-8 h-8 bg-accent/20 rounded-lg flex items-center justify-center">
+            <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"/>
+            </svg>
+          </div>
+          <div>
+            <div class="text-xs font-display font-700 text-zinc-900 dark:text-white">Production Ready</div>
+            <div class="text-xs text-zinc-500 font-mono">Real-world Projects</div>
+          </div>
+        </div>
+
+        <!-- Badge: GitHub -->
+        <div class="absolute -top-4 -right-4 glass bg-white dark:bg-zinc-900 border border-zinc-200 dark:border-zinc-700 rounded-xl px-3 py-2 shadow-xl flex items-center gap-2">
+          <svg class="w-4 h-4 text-zinc-700 dark:text-zinc-300" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.625-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+          </svg>
+          <div>
+            <div class="text-xs font-700 text-zinc-900 dark:text-white font-display">Active</div>
+            <div class="text-xs text-zinc-400 font-mono">GitHub</div>
+          </div>
+        </div>
+
+      </div>
+    </div><!-- /.right col -->
+
+  </div>
+
+  <!-- Scroll indicator -->
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 animate-bounce">
+    <span class="text-xs font-mono text-zinc-400">scroll</span>
+    <svg class="w-4 h-4 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"/>
+    </svg>
+  </div>
+
+</section>
+
+<!-- ==================== ABOUT SECTION ==================== -->
+<section id="about" class="py-28 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-64 h-64 bg-accent/5 rounded-full blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6">
+
+    <!-- Section header -->
+    <div class="reveal mb-16">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">01. About</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Who I Am</h2>
+    </div>
+
+    <!-- Top row: Photo + Text -->
+    <div class="grid lg:grid-cols-3 gap-10 items-start mb-10">
+
+      <!-- ── Photo / Flip Card ── -->
+      <div class="reveal flex flex-col items-center lg:items-start">
+
+        <div class="scene" id="scene">
+
+          <!-- Rope -->
+         
+           <div class="pin-wrap">
+  <div class="pin">
+    <div class="pin-head"></div>
+    <div class="pin-needle"></div>
+  </div>
+</div>
+        
+
+          <!-- Tilt + Flip wrapper -->
+          <div class="tilt-wrap idle" id="tiltWrap">
+            <div class="flip-card" id="flipCard">
+
+              <!-- FRONT -->
+              <div class="card-face card-front">
+                <div class="front-holo"></div>
+                <div class="front-hole"></div>
+                <div class="glare" id="glare"></div>
+
+                <img class="front-photo" id="frontPhoto" src="" alt="Profile"
+                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 240 340%22%3E%3Crect fill=%22%231a1d25%22 width=%22240%22 height=%22340%22/%3E%3Ccircle cx=%22120%22 cy=%22140%22 r=%2260%22 fill=%22%2300D4AA%22 opacity=%22.15%22/%3E%3Cellipse cx=%22120%22 cy=%22300%22 rx=%2280%22 ry=%2250%22 fill=%22%2300D4AA%22 opacity=%22.08%22/%3E%3C/svg%3E'"/>
+
+                <div class="front-overlay"></div>
+
+                <div class="front-caption">
+                  <div class="front-caption-name">Muhammad<br>Iqbal</div>
+                  <div class="front-caption-role">Full-Stack Developer</div>
+                </div>
+
+                <div class="tap-hint">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+                    <path d="M7 16V4m0 0L4 7m3-3l3 3M17 8v12m0 0l3-3m-3 3l-3-3"/>
+                  </svg>
+                  flip
+                </div>
+              </div>
+
+              <!-- BACK -->
+              <div class="card-face card-back">
+                <div class="back-holo"></div>
+                <div class="back-hole"></div>
+                <div class="glare"></div>
+
+                <img class="back-mini-photo" id="backMiniPhoto" src="" alt=""
+                  onerror="this.src='data:image/svg+xml,%3Csvg xmlns=%22http://www.w3.org/2000/svg%22 viewBox=%220 0 56 56%22%3E%3Crect fill=%22%231a1d25%22 width=%2256%22 height=%2256%22 rx=%2228%22/%3E%3Ccircle cx=%2228%22 cy=%2222%22 r=%2212%22 fill=%22%2300D4AA%22 opacity=%22.3%22/%3E%3Cellipse cx=%2228%22 cy=%2248%22 rx=%2218%22 ry=%2210%22 fill=%22%2300D4AA%22 opacity=%22.2%22/%3E%3C/svg%3E'"/>
+
+                <div class="back-qr">
+                  <div class="back-qr-inner"></div>
+                </div>
+
+                <div class="back-info">
+                  <div class="back-name">Muhammad Iqbal</div>
+                  <div class="back-role">Web Developer · IoT</div>
+                  <div class="back-tags">
+                    <span class="back-tag">Laravel</span>
+                    <span class="back-tag">Vue</span>
+                    <span class="back-tag">ESP32</span>
+                    <span class="back-tag">MQTT</span>
+                  </div>
+                </div>
+
+                <div class="back-divider"></div>
+
+                <div class="back-status">
+                  <div class="back-dot"></div>
+                  Open to Work
+                </div>
+
+                <div class="back-barcode" id="backBarcode"></div>
+                <div class="back-id">MIQ · 2025 · 001</div>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Photo dots & flip label -->
+          <div class="switcher" id="switcher"></div>
+          <div class="flip-label" id="flipLabel">tap card to flip</div>
+
+        </div><!-- /.scene -->
+
+      </div><!-- /.reveal photo col -->
+
+      <!-- ── Text content ── -->
+      <div class="reveal lg:col-span-2 space-y-6">
+        <p class="text-zinc-600 dark:text-zinc-300 text-lg leading-relaxed">
+          I'm a <strong class="text-zinc-900 dark:text-white">full-stack web developer</strong> with experience
+          building scalable web applications and integrated digital systems. I specialize in developing end-to-end
+          solutions — from backend architecture and RESTful APIs to responsive user interfaces and real-time dashboards.
+        </p>
+        <p class="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+          With hands-on experience in designing APIs, implementing real-time data systems, and working with embedded
+          devices, I build solutions that are technically robust, efficient, and user-centered.
+        </p>
+        <p class="text-zinc-600 dark:text-zinc-300 leading-relaxed">
+          My goal is to leverage modern web technologies to solve real-world problems by creating reliable, scalable,
+          and impactful digital products.
+        </p>
+
+        <!-- Info grid -->
+        <div class="grid grid-cols-2 sm:grid-cols-4 gap-4 pt-2">
+
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-accent uppercase tracking-widest">Location</span>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"/>
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"/>
+              </svg>
+              <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200">Bandung</p>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-accent uppercase tracking-widest">Focus</span>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z"/>
+              </svg>
+              <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200">Web + IoT</p>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-accent uppercase tracking-widest">Status</span>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                <circle cx="12" cy="12" r="6"/>
+              </svg>
+              <p class="text-sm font-medium text-accent">Open to Work</p>
+            </div>
+          </div>
+
+          <div class="space-y-1">
+            <span class="text-xs font-mono text-accent uppercase tracking-widest">Language</span>
+            <div class="flex items-center gap-1.5">
+              <svg class="w-3.5 h-3.5 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 5h12M9 3v2m1.048 9.5A18.022 18.022 0 016.412 9m6.088 9h7M11 21l5-10 5 10M12.751 5C11.783 10.77 8.07 15.61 3 18.129"/>
+              </svg>
+              <p class="text-sm font-medium text-zinc-800 dark:text-zinc-200">ID / EN</p>
+            </div>
+          </div>
+
+        </div>
+      </div><!-- /.text content -->
+
+    </div><!-- /.grid top row -->
+
+    <!-- Bottom row: 4 specialty cards -->
+    <div class="reveal grid grid-cols-2 lg:grid-cols-4 gap-4">
+
+      <!-- Web Dev -->
+      <div class="bg-white dark:bg-zinc-800 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-700 hover:-translate-y-1 transition-transform duration-300 group">
+        <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white mb-1">Web Dev</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Full-stack development with modern frameworks & clean APIs.</p>
+      </div>
+
+      <!-- IoT Systems -->
+      <div class="bg-white dark:bg-zinc-800 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-700 hover:-translate-y-1 transition-transform duration-300 group">
+        <div class="w-10 h-10 bg-teal-100 dark:bg-teal-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-5 h-5 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white mb-1">IoT Systems</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Arduino, ESP32, MQTT, sensor integration & data pipelines.</p>
+      </div>
+
+      <!-- Smart Farm -->
+      <div class="bg-white dark:bg-zinc-800 rounded-2xl p-6 shadow-sm border border-zinc-100 dark:border-zinc-700 hover:-translate-y-1 transition-transform duration-300 group">
+        <div class="w-10 h-10 bg-green-100 dark:bg-green-900/30 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-5 h-5 text-green-600 dark:text-green-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3.055 11H5a2 2 0 012 2v1a2 2 0 002 2 2 2 0 012 2v2.945M8 3.935V5.5A2.5 2.5 0 0010.5 8h.5a2 2 0 012 2 2 2 0 104 0 2 2 0 012-2h1.064M15 20.488V18a2 2 0 012-2h3.064M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white mb-1">Smart Farm</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">Precision agriculture solutions using data-driven technology.</p>
+      </div>
+
+      <!-- Real-time -->
+      <div class="bg-accent/10 border border-accent/20 rounded-2xl p-6 hover:-translate-y-1 transition-transform duration-300 group">
+        <div class="w-10 h-10 bg-accent/20 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform duration-300">
+          <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"/>
+          </svg>
+        </div>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white mb-1">Real-time</h3>
+        <p class="text-xs text-zinc-500 dark:text-zinc-400 leading-relaxed">WebSocket, MQTT dashboards & live monitoring systems.</p>
+      </div>
+
+    </div><!-- /.bottom row -->
+
+  </div>
+</section>
+
+<!-- ==================== SKILLS SECTION ==================== -->
+<section id="skills" class="py-28 bg-white dark:bg-zinc-950 relative overflow-hidden">
+  <div class="absolute bottom-0 left-0 w-72 h-72 bg-blue-500/5 rounded-full blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-16">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">02. Skills</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Tech Stack</h2>
+    </div>
+
+    <!-- Skill tabs -->
+    <div class="reveal mb-10 flex flex-wrap gap-2">
+      <button onclick="filterSkills('all')" data-filter="all"
+        class="skill-filter-btn active-filter font-mono text-xs px-4 py-2 rounded-full bg-accent text-zinc-900 transition-all">
+        All
+      </button>
+      <button onclick="filterSkills('frontend')" data-filter="frontend"
+        class="skill-filter-btn font-mono text-xs px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-all">
+        Frontend
+      </button>
+      <button onclick="filterSkills('backend')" data-filter="backend"
+        class="skill-filter-btn font-mono text-xs px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-all">
+        Backend
+      </button>
+      <button onclick="filterSkills('iot')" data-filter="iot"
+        class="skill-filter-btn font-mono text-xs px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-all">
+        IoT
+      </button>
+      <button onclick="filterSkills('tools')" data-filter="tools"
+        class="skill-filter-btn font-mono text-xs px-4 py-2 rounded-full border border-zinc-200 dark:border-zinc-700 text-zinc-600 dark:text-zinc-400 hover:border-accent hover:text-accent transition-all">
+        Tools
+      </button>
+    </div>
+
+    <!-- Skills grid -->
+    <div id="skills-grid" class="reveal grid grid-cols-1 md:grid-cols-2 xl:grid-cols-4 gap-4">
+
+      <!-- Frontend -->
+      <div class="skill-card" data-cat="frontend">
+        <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl p-5 hover:border-accent/40 transition-all duration-300 h-full">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-7 h-7 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>
+            </div>
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">Frontend</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">HTML / CSS</span>
+                <span class="text-accent font-mono">90%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:90%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">JavaScript</span>
+                <span class="text-accent font-mono">80%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Tailwind CSS</span>
+                <span class="text-accent font-mono">85%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">React.js</span>
+                <span class="text-accent font-mono">70%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:70%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5 mt-4">
+            <span class="skill-badge text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full">HTML5</span>
+            <span class="skill-badge text-xs bg-yellow-100 dark:bg-yellow-900/30 text-yellow-700 dark:text-yellow-400 px-2 py-0.5 rounded-full">JS</span>
+            <span class="skill-badge text-xs bg-cyan-100 dark:bg-cyan-900/30 text-cyan-700 dark:text-cyan-400 px-2 py-0.5 rounded-full">Tailwind</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Backend -->
+      <div class="skill-card" data-cat="backend">
+        <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl p-5 hover:border-accent/40 transition-all duration-300 h-full">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-7 h-7 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>
+            </div>
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">Backend</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">JS / Express</span>
+                <span class="text-accent font-mono">80%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Node.js</span>
+                <span class="text-accent font-mono">65%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:65%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">MySQL</span>
+                <span class="text-accent font-mono">75%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:75%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">REST API</span>
+                <span class="text-accent font-mono">80%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:80%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5 mt-4">
+            <span class="skill-badge text-xs bg-purple-100 dark:bg-purple-900/30 text-purple-700 dark:text-purple-400 px-2 py-0.5 rounded-full">Express</span>
+            <span class="skill-badge text-xs bg-green-100 dark:bg-green-900/30 text-green-700 dark:text-green-400 px-2 py-0.5 rounded-full">Node.js</span>
+            <span class="skill-badge text-xs bg-orange-100 dark:bg-orange-900/30 text-orange-700 dark:text-orange-400 px-2 py-0.5 rounded-full">MySQL</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- IoT -->
+      <div class="skill-card" data-cat="iot">
+        <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl p-5 hover:border-accent/40 transition-all duration-300 h-full">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-7 h-7 bg-teal-100 dark:bg-teal-900/30 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-teal-600 dark:text-teal-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8.111 16.404a5.5 5.5 0 017.778 0M12 20h.01m-7.08-7.071c3.904-3.905 10.236-3.905 14.141 0M1.394 9.393c5.857-5.857 15.355-5.857 21.213 0"/></svg>
+            </div>
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">IoT</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Arduino / ESP32</span>
+                <span class="text-accent font-mono">85%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">MQTT Protocol</span>
+                <span class="text-accent font-mono">75%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:75%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Sensor Integration</span>
+                <span class="text-accent font-mono">80%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:80%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Blynk / Node-RED</span>
+                <span class="text-accent font-mono">70%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:70%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5 mt-4">
+            <span class="skill-badge text-xs bg-teal-100 dark:bg-teal-900/30 text-teal-700 dark:text-teal-400 px-2 py-0.5 rounded-full">ESP32</span>
+            <span class="skill-badge text-xs bg-red-100 dark:bg-red-900/30 text-red-700 dark:text-red-400 px-2 py-0.5 rounded-full">MQTT</span>
+            <span class="skill-badge text-xs bg-lime-100 dark:bg-lime-900/30 text-lime-700 dark:text-lime-400 px-2 py-0.5 rounded-full">Arduino</span>
+          </div>
+        </div>
+      </div>
+
+      <!-- Tools -->
+      <div class="skill-card" data-cat="tools">
+        <div class="bg-zinc-50 dark:bg-zinc-900 border border-zinc-100 dark:border-zinc-800 rounded-2xl p-5 hover:border-accent/40 transition-all duration-300 h-full">
+          <div class="flex items-center gap-2 mb-4">
+            <div class="w-7 h-7 bg-zinc-200 dark:bg-zinc-700 rounded-lg flex items-center justify-center">
+              <svg class="w-4 h-4 text-zinc-600 dark:text-zinc-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>
+            </div>
+            <span class="font-mono text-xs text-accent uppercase tracking-widest">Tools</span>
+          </div>
+          <div class="space-y-3">
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Git / GitHub</span>
+                <span class="text-accent font-mono">85%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:85%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Docker</span>
+                <span class="text-accent font-mono">55%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:55%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">VS Code</span>
+                <span class="text-accent font-mono">95%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:95%"></div>
+              </div>
+            </div>
+            <div>
+              <div class="flex justify-between text-xs mb-1">
+                <span class="text-zinc-700 dark:text-zinc-300 font-medium">Figma</span>
+                <span class="text-accent font-mono">65%</span>
+              </div>
+              <div class="h-1.5 bg-zinc-200 dark:bg-zinc-800 rounded-full overflow-hidden">
+                <div class="h-full bg-accent rounded-full progress-bar" style="width:65%"></div>
+              </div>
+            </div>
+          </div>
+          <div class="flex flex-wrap gap-1.5 mt-4">
+            <span class="skill-badge text-xs bg-zinc-200 dark:bg-zinc-700 text-zinc-700 dark:text-zinc-300 px-2 py-0.5 rounded-full">Git</span>
+            <span class="skill-badge text-xs bg-blue-100 dark:bg-blue-900/30 text-blue-700 dark:text-blue-400 px-2 py-0.5 rounded-full">Docker</span>
+            <span class="skill-badge text-xs bg-pink-100 dark:bg-pink-900/30 text-pink-700 dark:text-pink-400 px-2 py-0.5 rounded-full">Figma</span>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== PROJECTS SECTION ==================== -->
+
+<section id="projects" class="py-28 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
+  <div class="absolute top-0 right-0 w-80 h-80 bg-accent/5 rounded-full blur-3xl"></div>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-10">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">03. Projects</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Featured Work</h2>
+    </div>
+
+    <!-- Filter Tabs -->
+    <div class="reveal mb-10 flex flex-wrap gap-2" id="filter-tabs">
+      <button data-filter="all"       class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'all')">All</button>
+      <button data-filter="web"       class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'web')">Web</button>
+      <button data-filter="mobile"    class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'mobile')">Mobile</button>
+      <button data-filter="dashboard" class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'dashboard')">Dashboard</button>
+      <button data-filter="iot"       class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'iot')">IoT</button>
+      <button data-filter="ai"        class="filter-btn font-mono text-xs px-4 py-2 rounded-full border transition-all duration-200" onclick="filterProjects(this,'ai')">AI/ML</button>
+    </div>
+
+    <div class="reveal grid md:grid-cols-2 xl:grid-cols-3 gap-6" id="projects-grid">
+
+      <!-- Project 1 - IoT -->
+<div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40" data-category="web">
+  <div class="h-40 relative overflow-hidden">
+    <img src="/assets/img/Screenshot 2026-02-21 at 23.38.27.png" alt="DevGo Project" class="w-full h-full object-cover"/>
+    <div class="absolute bottom-3 left-4 flex gap-2 z-10">
+      <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Astro</span>
+      <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Node.js</span>
+    </div>
+  </div>
+  <div class="p-6">
+    <div class="flex justify-between items-start mb-3">
+      <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">DevGo Platform</h3>
+      <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-0.5 rounded-full">Web</span>
+    </div>
+    <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">
+      Landing page dan sistem pemesanan jasa joki dengan fitur tracking progress project secara real-time. User dapat melakukan order, upload requirement, dan memantau status pengerjaan.
+    </p>
+    <div class="flex flex-wrap gap-1.5 mb-4">
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Astro</span>
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Express</span>
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">MongoDB</span>
+    </div>
+    <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Role: Fullstack Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+  </div>
+</div>
+
+
+            <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="web">
+        <div class="h-40 bg-gradient-to-br from-violet-500 to-purple-700 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/dispora_rs0lax.png" alt="E-Learning Project" class="w-full h-full object-cover"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Laravel</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Bootstrap</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">SIPEPORA</h3>
+            <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-0.5 rounded-full">Web</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Sistem pemesanan lapangan olahraga secara online yang dikembangkan untuk Kemenpora Pontianak. 
+      Aplikasi ini memungkinkan pengguna melakukan booking lapangan, pembayaran online melalui Midtrans, 
+      serta manajemen jadwal dan ketersediaan lapangan secara real-time.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Laravel</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Bootstrap</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">MySQL</span>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Role: Backend Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 2 - Web -->
+      <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="web">
+        <div class="h-40 bg-gradient-to-br from-blue-500 to-indigo-600 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/Screenshot 2026-02-21 at 23.41.33.png" alt="POS Project" class="w-full h-full object-cover object-[center_10%]"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">React</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Node.js</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">BISHOP E-commerce</h3>
+            <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-0.5 rounded-full">Web</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Platform e-commerce untuk pemesanan bibit tanaman secara online. 
+      Sistem menyediakan fitur katalog produk, manajemen pesanan, autentikasi user, 
+      serta dashboard admin untuk pengelolaan produk dan transaksi.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">MongoDB</span>
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Express</span>
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">React</span>
+      <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Node.js</span>
+    </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Role: Fullstack Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- Project 3 - Dashboard -->
+      <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="web">
+        <div class="h-40 bg-gradient-to-br from-orange-400 to-rose-600 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/PETRAS_rfxjzh.png" alt="Dashboard Project" class="w-full h-full object-cover object-[center_10%]"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">React</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Vite</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">PETSHOP</h3>
+            <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-0.5 rounded-full">Web</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Platform komunitas pecinta hewan yang memungkinkan pengguna melaporkan hewan terlantar 
+      serta mengadopsi hewan secara online. Sistem ini juga mendukung interaksi komunitas 
+      untuk membantu meningkatkan kepedulian terhadap kesejahteraan hewan.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">React</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Vite</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Node.js</span>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Role: Fullstack Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="web">
+        <div class="h-40 bg-gradient-to-br from-orange-400 to-rose-600 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/Screenshot 2026-02-22 at 21.41.05.png" alt="Dashboard Project" class="w-full h-full object-cover object-[center_10%]"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Laravel</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Bootstrap</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">Poliklinik Polije</h3>
+            <span class="text-xs font-mono text-accent bg-accent/10 px-2 py-0.5 rounded-full">Web</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Platform komunitas pecinta hewan yang memungkinkan pengguna melaporkan hewan terlantar 
+      serta mengadopsi hewan secara online. Sistem ini juga mendukung interaksi komunitas 
+      untuk membantu meningkatkan kepedulian terhadap kesejahteraan hewan.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Laravel</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Bootstrap</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">MySql</span>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Role: Fullstack Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+
+
+      <!-- Project 5 - AI/ML -->
+      <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="iot">
+        <div class="h-40 bg-gradient-to-br from-lime-400 to-green-600 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/Screenshot 2026-02-22 at 21.45.00.png" alt="AI Project" class="w-full h-full object-cover"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">React</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Mqtt</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">Hydrozooner</h3>
+            <span class="text-xs font-mono text-red-600 bg-red-500/10 px-2 py-0.5 rounded-full">IOT</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Sistem monitoring dan kontrol sterilisasi air minum ternak berbasis IoT 
+      yang mengintegrasikan teknologi UV dan ozon. Aplikasi web memungkinkan 
+      pemantauan sensor seperti pH, suhu, dan TDS secara real-time serta 
+      pengendalian proses sterilisasi dari dashboard.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">React</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Mqtt</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Iot</span>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Software Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+            <div class="project-card group bg-white dark:bg-zinc-800 rounded-2xl overflow-hidden border border-zinc-100 dark:border-zinc-700 shadow-sm hover:shadow-xl hover:shadow-zinc-200/40 dark:hover:shadow-black/40"
+           data-category="dashboard">
+        <div class="h-40 bg-gradient-to-br from-lime-400 to-green-600 relative overflow-hidden">
+          <div class="absolute inset-0">
+            <img src="/assets/img/Warehouse_p9fte3.png" alt="AI Project" class="w-full h-full object-cover"/>
+          </div>
+          <div class="absolute bottom-3 left-4 flex gap-2">
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">React</span>
+            <span class="bg-white/20 backdrop-blur text-white text-xs font-mono px-2 py-0.5 rounded-full">Node.js</span>
+          </div>
+        </div>
+        <div class="p-6">
+          <div class="flex justify-between items-start mb-3">
+            <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white">Warehouse Inventory Dashboard</h3>
+            <span class="text-xs font-mono text-violet-600 bg-violet-500/10 px-2 py-0.5 rounded-full">Dashboard</span>
+          </div>
+          <p class="text-sm text-zinc-500 dark:text-zinc-400 mb-4 leading-relaxed">Dashboard manajemen inventori gudang yang memungkinkan perusahaan memantau 
+stok barang, mutasi barang masuk dan keluar, serta laporan inventori 
+secara real-time untuk meningkatkan efisiensi pengelolaan gudang.</p>
+          <div class="flex flex-wrap gap-1.5 mb-4">
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">React</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">Express</span>
+            <span class="text-xs bg-zinc-100 dark:bg-zinc-700 text-zinc-600 dark:text-zinc-300 px-2 py-0.5 rounded-full">MongoDB</span>
+          </div>
+          <div class="flex items-center justify-between pt-3 border-t border-zinc-100 dark:border-zinc-700">
+            <span class="text-xs font-mono text-zinc-400">Frontend Developer</span>
+            <a href="#" class="text-accent hover:text-accent-dark transition-colors">
+              <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"/></svg>
+            </a>
+          </div>
+        </div>
+      </div>
+
+      <!-- More projects CTA (always visible) -->
+      <div class="project-card cta-card border-2 border-dashed border-zinc-200 dark:border-zinc-700 rounded-2xl flex flex-col items-center justify-center p-8 text-center hover:border-accent/50 transition-all duration-300 group cursor-pointer">
+        <div class="w-12 h-12 bg-accent/10 rounded-xl flex items-center justify-center mb-4 group-hover:scale-110 transition-transform">
+          <svg class="w-6 h-6 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4v16m8-8H4"/></svg>
+        </div>
+        <h3 class="font-display font-700 text-zinc-700 dark:text-zinc-300 mb-2">More on GitHub</h3>
+        <p class="text-xs text-zinc-400 dark:text-zinc-500">View all my open source projects and contributions.</p>
+        <a href="#" class="mt-4 text-accent text-sm font-mono hover:underline">github.com/iqbal →</a>
+      </div>
+
+    </div>
+
+    <!-- Empty state -->
+    <div id="empty-state" class="hidden text-center py-16 col-span-full">
+      <div class="w-14 h-14 bg-zinc-100 dark:bg-zinc-800 rounded-2xl flex items-center justify-center mx-auto mb-4">
+        <svg class="w-6 h-6 text-zinc-400" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M9.172 16.172a4 4 0 015.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"/></svg>
+      </div>
+      <p class="text-zinc-400 dark:text-zinc-500 font-mono text-sm">No projects in this category yet.</p>
+    </div>
+
+  </div>
+</section>
+
+<!-- ==================== EXPERIENCE SECTION ==================== -->
+<section id="experience" class="py-28 bg-zinc-50 dark:bg-zinc-900 relative overflow-hidden">
+  <div class="absolute top-0 left-0 w-72 h-72 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute bottom-0 right-0 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-16">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">04. Experience</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Work Journey</h2>
+      <p class="text-zinc-500 dark:text-zinc-400 mt-3 max-w-lg">Perjalanan profesional dan pengalaman kerja yang membentuk keahlian saya di bidang web & IoT.</p>
+    </div>
+
+    <!-- Timeline vertical -->
+    <div class="reveal relative">
+
+      <!-- Center line (desktop) -->
+      <div class="hidden lg:block absolute left-1/2 -translate-x-1/2 top-0 bottom-0 w-0.5 bg-gradient-to-b from-accent via-accent/30 to-transparent"></div>
+
+      <div class="space-y-10">
+
+  <!-- 1. Software Engineer – PT Habibi -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="lg:text-right order-2 lg:order-1">
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-accent/30 transition-all duration-300 group-hover:-translate-y-1">
+        <div class="flex lg:flex-row-reverse items-center gap-3 mb-3">
+          <div class="w-10 h-10 bg-accent/15 rounded-xl flex items-center justify-center">
+            <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18"/>
+            </svg>
+          </div>
+          <span class="text-xs font-mono text-accent bg-accent/10 px-2.5 py-1 rounded-full">
+            2025 — Sekarang
+          </span>
+        </div>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg lg:text-right">
+          Software Engineer & Elektrikal
+        </h3>
+        <p class="text-sm text-accent font-mono lg:text-right">
+          PT Habibi Digital Nusantara
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed lg:text-right">
+          Bertanggung jawab dalam pengembangan software dan perakitan perangkat IoT berbasis sensor dan mikrokontroler untuk berbagai proyek internal dan eksternal perusahaan.
+        </p>
+        <div class="flex flex-wrap gap-1.5 mt-4 lg:justify-end">
+          <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">IoT</span>
+          <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">ESP32</span>
+          <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">React</span>
+          <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Elektrikal</span>
+        </div>
+      </div>
+    </div>
+
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-accent rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+    <div class="order-1 lg:order-2 lg:pl-4">
+      <div class="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-xl px-4 py-2.5 shadow-sm">
+        <span class="font-mono text-xs">Smart Farming & IoT Project</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- Backend Developer – Kemenpora Pontianak -->
+<div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+  <div class="hidden lg:block order-1"></div>
+
+  <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-red-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+  <div class="order-2 lg:pl-4">
+    <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-red-400/30 transition-all duration-300 group-hover:-translate-y-1">
+      
+      <span class="text-xs font-mono text-red-500 bg-red-500/10 px-2.5 py-1 rounded-full">
+        2025 · 2 Bulan Project
+      </span>
+
+      <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3">
+        Backend Developer
+      </h3>
+
+      <p class="text-sm text-red-500 font-mono">
+        Proyek Aplikasi Web – Kemenpora Kota Pontianak
+      </p>
+
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">
+        Bertanggung jawab dalam pengembangan dan integrasi REST API, manajemen database, serta optimasi sistem backend pada aplikasi milik Kemenpora Kota Pontianak.
+      </p>
+
+      <div class="flex flex-wrap gap-1.5 mt-4">
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Laravel</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">MySQL</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">REST API</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Authentication</span>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+
+  <!-- Owner – DevGo -->
+<div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+  <div class="lg:text-right order-2 lg:order-1">
+    <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-purple-400/30 transition-all duration-300 group-hover:-translate-y-1">
+      <div class="flex lg:flex-row-reverse items-center gap-3 mb-3">
+        <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-xl flex items-center justify-center">
+          <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3.866 0-7 1.79-7 4v4h14v-4c0-2.21-3.134-4-7-4z"/>
+          </svg>
+        </div>
+        <span class="text-xs font-mono text-purple-500 bg-purple-500/10 px-2.5 py-1 rounded-full">
+          2024 — Sekarang
+        </span>
+      </div>
+
+      <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg lg:text-right">
+        Founder & Owner – DevGo
+      </h3>
+
+      <p class="text-sm text-purple-500 font-mono lg:text-right">
+        IT Services & Academic Tech Support
+      </p>
+
+      <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed lg:text-right">
+        Mengelola dan mengembangkan DevGo sebagai jasa layanan IT, mencakup pengembangan aplikasi, website, sistem IoT, serta bantuan teknis tugas dan proyek kampus di bidang teknologi.
+      </p>
+
+      <div class="flex flex-wrap gap-1.5 mt-4 lg:justify-end">
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Business Management</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Full Stack</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">IoT Solutions</span>
+        <span class="text-xs bg-zinc-100 dark:bg-zinc-700 px-2 py-0.5 rounded-full">Client Handling</span>
+      </div>
+    </div>
+  </div>
+
+  <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-purple-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+  <div class="order-1 lg:order-2 lg:pl-4">
+    <div class="inline-flex items-center gap-2 bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-xl px-4 py-2.5 shadow-sm">
+      <span class="font-mono text-xs">Entrepreneurship & Tech Services</span>
+    </div>
+  </div>
+</div>
+
+
+  <!-- 2. Freelance -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="hidden lg:block order-1"></div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-emerald-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+    <div class="order-2 lg:pl-4">
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-emerald-400/30 transition-all duration-300 group-hover:-translate-y-1">
+        <span class="text-xs font-mono text-emerald-500 bg-emerald-500/10 px-2.5 py-1 rounded-full">
+          2024 — Sekarang
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3">
+          Freelance Full Stack Developer
+        </h3>
+        <p class="text-sm text-emerald-500 font-mono">Remote</p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed">
+          Mengembangkan berbagai proyek aplikasi mobile, web, dan perangkat IoT untuk klien individu maupun organisasi.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 3. Project Manager – Hydrotec AB -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="order-2 lg:order-1">
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm hover:shadow-md hover:border-blue-400/30 transition-all duration-300 group-hover:-translate-y-1">
+        <span class="text-xs font-mono text-blue-500 bg-blue-500/10 px-2.5 py-1 rounded-full">
+          2024
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3 lg:text-right">
+          Software Engineer – Intern
+        </h3>
+        <p class="text-sm text-blue-500 font-mono lg:text-right">
+          PT Habibi Digital Nusantara
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed lg:text-right">
+          Mengelola proyek pembuatan alat dan aplikasi monitoring air berbasis IoT bernama Hydrotec AB selama masa magang.
+        </p>
+      </div>
+    </div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-blue-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+  </div>
+
+  <!-- 4. PMM -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="hidden lg:block"></div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-violet-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+    <div>
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm">
+        <span class="text-xs font-mono text-violet-500 bg-violet-500/10 px-2.5 py-1 rounded-full">
+          2023
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3">
+          Pertukaran Mahasiswa Merdeka – Batch 4
+        </h3>
+        <p class="text-sm text-violet-500 font-mono">
+          Politeknik Negeri Pontianak
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3">
+          Lolos program PMM dan menjalani perkuliahan lintas kampus selama satu semester.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 5. PKM -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="order-2 lg:order-1">
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm">
+        <span class="text-xs font-mono text-orange-500 bg-orange-500/10 px-2.5 py-1 rounded-full">
+          2023
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3 lg:text-right">
+          Lolos Pendanaan PKM – Karsa Cipta
+        </h3>
+        <p class="text-sm text-orange-500 font-mono lg:text-right">
+          Anggota Tim
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed lg:text-right">
+          Mengembangkan alat inovatif berbasis teknologi sebagai anggota tim PKM bidang Karsa Cipta.
+        </p>
+      </div>
+    </div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-orange-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+  </div>
+
+  <!-- 6. UKM Robotika -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="hidden lg:block"></div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-indigo-500 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+
+    <div>
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm">
+        <span class="text-xs font-mono text-indigo-500 bg-indigo-500/10 px-2.5 py-1 rounded-full">
+          2022 — 2023
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3">
+          Anggota UKM Robotika – Divisi Pemrograman
+        </h3>
+        <p class="text-sm text-indigo-500 font-mono">
+          Politeknik Negeri Jember
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3">
+          Mengembangkan algoritma untuk robot line follower dan sistem IoT berbasis sensor.
+        </p>
+      </div>
+    </div>
+  </div>
+
+  <!-- 7. Volunteer -->
+  <div class="relative grid lg:grid-cols-2 gap-6 lg:gap-12 items-center group">
+    <div class="order-2 lg:order-1">
+      <div class="bg-white dark:bg-zinc-800 border border-zinc-100 dark:border-zinc-700 rounded-2xl p-6 shadow-sm">
+        <span class="text-xs font-mono text-zinc-500 bg-zinc-200 dark:bg-zinc-700 px-2.5 py-1 rounded-full">
+          2022
+        </span>
+        <h3 class="font-display font-700 text-zinc-900 dark:text-white text-lg mt-3 lg:text-right">
+          Volunteer Expo JTI – SEA IT
+        </h3>
+        <p class="text-sm text-zinc-500 font-mono lg:text-right">
+          Tim Teknis & Dokumentasi
+        </p>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-3 leading-relaxed lg:text-right">
+          Bertanggung jawab pada sisi teknis dan dokumentasi acara dalam kegiatan Expo JTI.
+        </p>
+      </div>
+    </div>
+    <div class="hidden lg:flex absolute left-1/2 -translate-x-1/2 w-5 h-5 bg-zinc-400 rounded-full border-4 border-zinc-50 dark:border-zinc-900 shadow-lg z-10"></div>
+  </div>
+
+</div>
+
+    </div>
+  </div>
+</section>
+
+<!-- ==================== EDUCATION SECTION ==================== -->
+<section id="education" class="py-28 bg-white dark:bg-zinc-950">
+  <div class="max-w-6xl mx-auto px-6">
+    <div class="reveal mb-16">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">05. Education</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Background</h2>
+    </div>
+
+    <div class="grid lg:grid-cols-2 gap-16">
+      <!-- Education Timeline -->
+      <div class="reveal">
+  <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white mb-8 flex items-center gap-2">
+    <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path d="M12 14l9-5-9-5-9 5 9 5z"/>
+      <path d="M12 14l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14z"/>
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 14l9-5-9-5-9 5 9 5zm0 0l6.16-3.422a12.083 12.083 0 01.665 6.479A11.952 11.952 0 0012 20.055a11.952 11.952 0 00-6.824-2.998 12.078 12.078 0 01.665-6.479L12 14zm-4 6v-7.5l4-2.222"/>
+    </svg>
+    Education
+  </h3>
+
+  <div class="relative pl-8 border-l-2 border-zinc-100 dark:border-zinc-800 space-y-8">
+
+    <!-- Politeknik Negeri Jember -->
+    <div class="timeline-item relative">
+      <div class="absolute -left-9 top-1 w-4 h-4 bg-accent rounded-full border-2 border-white dark:border-zinc-950 shadow"></div>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-100 dark:border-zinc-800">
+        <div class="flex justify-between items-start mb-1">
+          <span class="font-mono text-xs text-accent">2022 — 2025</span>
+          <span class="text-xs bg-accent/10 text-accent px-2 py-0.5 rounded-full font-mono">Graduated</span>
+        </div>
+        <h4 class="font-display font-700 text-zinc-900 dark:text-white mt-1">
+          Computer Engineering
+        </h4>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
+          Politeknik Negeri Jember
+        </p>
+        <p class="text-xs text-zinc-400 dark:text-zinc-500 mt-2">
+          Final GPA: <span class="text-accent font-semibold">3.90</span> — 
+          Focus: Software Engineering, IoT Systems, Web & Mobile Development
+        </p>
+        
+      </div>
+    </div>
+
+    <div class="timeline-item relative">
+      <div class="absolute -left-9 top-1 w-4 h-4 bg-accent rounded-full border-2 border-white dark:border-zinc-950 shadow"></div>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-100 dark:border-zinc-800">
+        <div class="flex justify-between items-start mb-1">
+          <span class="font-mono text-xs text-accent">2024</span>
+          <span class="text-xs bg-accent/10 text-accent px-2 py-0.5 rounded-full font-mono">Academic Exchange</span>
+        </div>
+        <h4 class="font-display font-700 text-zinc-900 dark:text-white mt-1">
+          Student Exchange – Informatika
+        </h4>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
+          Politeknik Negeri Pontianak
+        </p>
+        <p class="text-xs text-zinc-400 dark:text-zinc-500 mt-2">
+          GPA: <span class="text-accent font-semibold">3.95</span> Selected for academic mobility program with excellent academic performance.
+        </p>
+        
+      </div>
+    </div>
+
+    <div class="timeline-item relative">
+      <div class="absolute -left-9 top-1 w-4 h-4 bg-accent rounded-full border-2 border-white dark:border-zinc-950 shadow"></div>
+      <div class="bg-zinc-50 dark:bg-zinc-900 rounded-xl p-5 border border-zinc-100 dark:border-zinc-800">
+        <div class="flex justify-between items-start mb-1">
+          <span class="font-mono text-xs text-accent">2019 — 2022</span>
+          <span class="text-xs bg-accent/10 text-accent px-2 py-0.5 rounded-full font-mono">Completed</span>
+        </div>
+        <h4 class="font-display font-700 text-zinc-900 dark:text-white mt-1">
+          SMK – Teknik Komputer dan Jaringan
+        </h4>
+        <p class="text-sm text-zinc-500 dark:text-zinc-400 mt-0.5">
+          Sekolah Menengah Kejuruan
+        </p>
+        <p class="text-xs text-zinc-400 dark:text-zinc-500 mt-2">
+           Networking, Server Administration, Web Development, Computer Systems
+        </p>
+        
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+
+      <!-- Certifications -->
+      <div class="reveal">
+        <h3 class="font-display font-700 text-lg text-zinc-900 dark:text-white mb-8 flex items-center gap-2">
+          <svg class="w-5 h-5 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4M7.835 4.697a3.42 3.42 0 001.946-.806 3.42 3.42 0 014.438 0 3.42 3.42 0 001.946.806 3.42 3.42 0 013.138 3.138 3.42 3.42 0 00.806 1.946 3.42 3.42 0 010 4.438 3.42 3.42 0 00-.806 1.946 3.42 3.42 0 01-3.138 3.138 3.42 3.42 0 00-1.946.806 3.42 3.42 0 01-4.438 0 3.42 3.42 0 00-1.946-.806 3.42 3.42 0 01-3.138-3.138 3.42 3.42 0 00-.806-1.946 3.42 3.42 0 010-4.438 3.42 3.42 0 00.806-1.946 3.42 3.42 0 013.138-3.138z"/></svg>
+          Certifications
+        </h3>
+
+        <div class="space-y-4">
+
+  <!-- BNSP Network Administrator -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-blue-100 dark:bg-blue-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-blue-600 dark:text-blue-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M8 16v-4a4 4 0 118 0v4M4 20h16"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        BNSP Certified Network Administrator
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        BNSP · National Professional Certification
+      </p>
+    </div>
+  </div>
+
+  <!-- BNSP Network Administrator Intermediate -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-indigo-100 dark:bg-indigo-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-indigo-600 dark:text-indigo-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 7h18M3 12h18M3 17h18"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        BNSP Network Administrator – Intermediate
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        BNSP · Advanced Level Certification
+      </p>
+    </div>
+  </div>
+
+  <!-- BNSP Web Developer -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-emerald-100 dark:bg-emerald-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-emerald-600 dark:text-emerald-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M16 18l6-6-6-6M8 6l-6 6 6 6"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        BNSP Certified Web Developer
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        BNSP · National Professional Certification
+      </p>
+    </div>
+  </div>
+
+  <!-- VSGA -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-yellow-100 dark:bg-yellow-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-yellow-600 dark:text-yellow-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 8c-3 0-5 2-5 4s2 4 5 4 5-2 5-4-2-4-5-4z"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        Vocational School Graduate Academy (VSGA)
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        Digital Talent Scholarship · Kominfo
+      </p>
+    </div>
+  </div>
+
+  <!-- Fullstack Data Analyst & UI/UX -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-pink-100 dark:bg-pink-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-pink-600 dark:text-pink-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M11 3v18M3 11h18"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        Fullstack Data Analyst & UI/UX Certification
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        Professional Training Program
+      </p>
+    </div>
+  </div>
+
+  <!-- RevoU -->
+  <div class="flex gap-4 items-start p-4 bg-zinc-50 dark:bg-zinc-900 rounded-xl border border-zinc-100 dark:border-zinc-800 hover:border-accent/30 transition-all duration-300">
+    <div class="w-10 h-10 bg-purple-100 dark:bg-purple-900/30 rounded-lg flex items-center justify-center flex-shrink-0">
+      <svg class="w-5 h-5 text-purple-600 dark:text-purple-400" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 17v-6h13M9 11l3-3-3-3"/>
+      </svg>
+    </div>
+    <div>
+      <h4 class="font-display font-semibold text-sm text-zinc-900 dark:text-white">
+        Web Developer Certification
+      </h4>
+      <p class="text-xs text-zinc-500 mt-0.5">
+        RevoU Bootcamp
+      </p>
+    </div>
+  </div>
+
+</div>
+
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="gallery" class="py-28 relative overflow-hidden bg-white dark:bg-zinc-950 transition-colors duration-300">
+
+  <!-- Background grid -->
+  <div class="absolute inset-0 opacity-20 dark:opacity-30 pointer-events-none"
+    style="background-image: linear-gradient(rgba(0,212,170,0.04) 1px, transparent 1px), linear-gradient(90deg, rgba(0,212,170,0.04) 1px, transparent 1px); background-size: 48px 48px;"></div>
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+
+    <!-- Header -->
+    <div class="reveal mb-10">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">06. Gallery</span>
+      <div class="flex items-end justify-between mt-2 flex-wrap gap-4">
+        <div>
+          <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white">My Journey</h2>
+          <p class="text-zinc-500 dark:text-zinc-500 font-mono text-sm mt-2 max-w-md">Moments behind the code — events, builds, and everything in between.</p>
+        </div>
+        <!-- Arrow hint -->
+        <div class="flex items-center gap-2 text-zinc-400 dark:text-zinc-600 font-mono text-xs select-none">
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M7 16l-4-4m0 0l4-4m-4 4h18"/></svg>
+          scroll
+          <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/></svg>
+        </div>
+      </div>
+    </div>
+
+    <!-- Filter tabs -->
+    <div class="reveal flex flex-wrap gap-2 mb-8" id="galleryFilters">
+      <button class="gal-filter active" data-filter="all">All</button>
+      <button class="gal-filter" data-filter="coding">Coding</button>
+      <button class="gal-filter" data-filter="iot">IoT</button>
+      <button class="gal-filter" data-filter="event">Event</button>
+      <button class="gal-filter" data-filter="farm">Smart Farm</button>
+      <button class="gal-filter" data-filter="life">Life</button>
+    </div>
+
+    <!-- Horizontal scroll track (inside container) -->
+    <div class="gallery-track-wrap reveal">
+      <!-- Left / Right fade edges -->
+      <div class="gallery-fade-left"></div>
+      <div class="gallery-fade-right"></div>
+
+      <!-- Nav buttons -->
+      <button class="gallery-arrow gallery-arrow-left" id="galLeft" aria-label="Scroll left">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+      </button>
+      <button class="gallery-arrow gallery-arrow-right" id="galRight" aria-label="Scroll right">
+        <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+      </button>
+
+      <!-- Scroll container -->
+      <div class="gallery-track" id="galleryTrack">
+        <!-- items injected by JS -->
+      </div>
+    </div>
+
+    <!-- Dot indicators -->
+    <div class="mt-6 flex items-center justify-center gap-1.5" id="galDots"></div>
+
+  </div>
+
+</section>
+
+<div id="lightbox" class="lightbox" role="dialog" aria-modal="true">
+  <div class="lightbox-backdrop" id="lbBackdrop"></div>
+
+  <button class="lightbox-close" id="lbClose" aria-label="Close">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2">
+      <path stroke-linecap="round" stroke-linejoin="round" d="M6 18L18 6M6 6l12 12"/>
+    </svg>
+  </button>
+  <button class="lightbox-nav lightbox-prev" id="lbPrev" aria-label="Previous">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M15 19l-7-7 7-7"/></svg>
+  </button>
+  <button class="lightbox-nav lightbox-next" id="lbNext" aria-label="Next">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path stroke-linecap="round" stroke-linejoin="round" d="M9 5l7 7-7 7"/></svg>
+  </button>
+
+  <div class="lightbox-content" id="lbContent">
+    <div class="lightbox-img-wrap">
+      <img id="lbImg" src="" alt="" draggable="false"/>
+      <div class="lightbox-loader" id="lbLoader"></div>
+    </div>
+    <div class="lightbox-info">
+      <div class="lightbox-meta">
+        <span class="lightbox-cat" id="lbCat"></span>
+        <span class="lightbox-counter" id="lbCounter"></span>
+      </div>
+      <div class="lightbox-title" id="lbTitle"></div>
+      <div class="lightbox-caption" id="lbCaption"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ==================== CONTACT SECTION ==================== -->
+<section id="contact" class="py-28 bg-white dark:bg-zinc-950 relative overflow-hidden transition-colors duration-300">
+
+  <!-- Background decoration -->
+  <div class="absolute top-0 left-0 right-0 h-px bg-gradient-to-r from-transparent via-accent/30 to-transparent"></div>
+  <div class="absolute bottom-1/3 -right-32 w-80 h-80 bg-accent/5 rounded-full blur-3xl pointer-events-none"></div>
+  <div class="absolute top-1/3 -left-32 w-64 h-64 bg-blue-500/5 rounded-full blur-3xl pointer-events-none"></div>
+
+  <div class="max-w-6xl mx-auto px-6 relative z-10">
+
+    <!-- Header -->
+    <div class="reveal mb-16 text-center">
+      <span class="font-mono text-xs text-accent tracking-widest uppercase">07. Contact</span>
+      <h2 class="font-display font-800 text-4xl md:text-5xl text-zinc-900 dark:text-white mt-2">Let's Work Together</h2>
+      <p class="text-zinc-500 dark:text-zinc-400 font-mono text-sm mt-3 max-w-md mx-auto">
+        Have a project in mind? Drop a message and I'll get back within 24 hours.
+      </p>
+    </div>
+
+    <div class="grid lg:grid-cols-5 gap-12 items-start">
+
+      <!-- ── Left: Info ── -->
+      <div class="lg:col-span-2 space-y-8 reveal">
+
+        <!-- Available card -->
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 p-6">
+          <div class="flex items-center gap-3 mb-4">
+            <span class="relative flex h-2.5 w-2.5">
+              <span class="animate-ping absolute inline-flex h-full w-full rounded-full bg-accent opacity-60"></span>
+              <span class="relative inline-flex h-2.5 w-2.5 rounded-full bg-accent"></span>
+            </span>
+            <span class="font-mono text-xs text-accent tracking-widest uppercase">Available for work</span>
+          </div>
+          <p class="text-zinc-600 dark:text-zinc-400 text-sm leading-relaxed">
+            Open to freelance projects, collaborations, and full-time opportunities. Let's build something great.
+          </p>
+        </div>
+
+        <!-- Contact info -->
+        <div class="space-y-4">
+          <a href="mailto:your@email.com"
+            class="group flex items-center gap-4 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-accent/40 dark:hover:border-accent/40 hover:bg-accent/5 transition-all duration-200">
+            <div class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest">Email</div>
+              <div class="text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-accent transition-colors">your@email.com</div>
+            </div>
+            <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-600 ml-auto group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+          <a href="https://github.com/IQ1341" target="_blank"
+            class="group flex items-center gap-4 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-accent/40 dark:hover:border-accent/40 hover:bg-accent/5 transition-all duration-200">
+            <div class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.625-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest">GitHub</div>
+              <div class="text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-accent transition-colors">IQ1341</div>
+            </div>
+            <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-600 ml-auto group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+
+          <a href="https://linkedin.com/in/iq134l03" target="_blank"
+            class="group flex items-center gap-4 p-4 rounded-xl border border-zinc-200 dark:border-zinc-800 hover:border-accent/40 dark:hover:border-accent/40 hover:bg-accent/5 transition-all duration-200">
+            <div class="w-9 h-9 rounded-lg bg-accent/10 flex items-center justify-center flex-shrink-0">
+              <svg class="w-4 h-4 text-accent" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433a2.062 2.062 0 01-2.063-2.065 2.064 2.064 0 112.063 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-mono text-xs text-zinc-400 uppercase tracking-widest">LinkedIn</div>
+              <div class="text-sm text-zinc-700 dark:text-zinc-300 group-hover:text-accent transition-colors">iq134l03</div>
+            </div>
+            <svg class="w-4 h-4 text-zinc-300 dark:text-zinc-600 ml-auto group-hover:text-accent group-hover:translate-x-1 transition-all" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+              <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+            </svg>
+          </a>
+        </div>
+
+      </div>
+
+      <!-- ── Right: Form ── -->
+      <div class="lg:col-span-3 reveal">
+        <div class="rounded-2xl border border-zinc-200 dark:border-zinc-800 bg-zinc-50 dark:bg-zinc-900/60 p-8">
+
+          <div id="contactForm" class="space-y-5">
+
+            <!-- Name + Email row -->
+            <div class="grid sm:grid-cols-2 gap-5">
+              <div class="contact-field-wrap">
+                <label class="contact-label">Name</label>
+                <input id="cf-name" type="text" placeholder="Muhammad Iqbal"
+                  class="contact-input" autocomplete="name" required/>
+              </div>
+              <div class="contact-field-wrap">
+                <label class="contact-label">Email</label>
+                <input id="cf-email" type="email" placeholder="hello@example.com"
+                  class="contact-input" autocomplete="email" required/>
+              </div>
+            </div>
+
+            <!-- Subject -->
+            <div class="contact-field-wrap">
+              <label class="contact-label">Subject</label>
+              <input id="cf-subject" type="text" placeholder="Project inquiry / Collaboration / etc."
+                class="contact-input" required/>
+            </div>
+
+            <!-- Message -->
+            <div class="contact-field-wrap">
+              <label class="contact-label">Message</label>
+              <textarea id="cf-message" rows="5"
+                placeholder="Tell me about your project, timeline, and budget..."
+                class="contact-input resize-none" required></textarea>
+            </div>
+
+            <!-- Submit -->
+            <button id="cf-submit" type="button" onclick="sendMessage()"
+              class="w-full group inline-flex items-center justify-center gap-2 bg-accent hover:bg-accent-dark text-zinc-900 font-display font-700 text-sm px-6 py-3.5 rounded-xl transition-all duration-200 shadow-lg shadow-accent/20 hover:shadow-accent/40 hover:-translate-y-0.5 disabled:opacity-60 disabled:cursor-not-allowed disabled:translate-y-0">
+              <span id="cf-btn-text">Send Message</span>
+              <svg id="cf-btn-icon" class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 19l9 2-9-18-9 18 9-2zm0 0v-8"/>
+              </svg>
+            </button>
+
+          </div>
+
+          <!-- Success state (hidden by default) -->
+          <div id="contactSuccess" class="hidden flex-col items-center justify-center py-8 gap-4 text-center">
+            <div class="w-16 h-16 rounded-full bg-accent/15 border border-accent/30 flex items-center justify-center">
+              <svg class="w-7 h-7 text-accent" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 13l4 4L19 7"/>
+              </svg>
+            </div>
+            <div>
+              <div class="font-display font-700 text-zinc-900 dark:text-white text-lg">Message Sent!</div>
+              <div class="text-zinc-500 dark:text-zinc-400 font-mono text-xs mt-1">I'll get back to you within 24 hours.</div>
+            </div>
+            <button onclick="resetContactForm()"
+              class="font-mono text-xs text-accent hover:underline mt-2">
+              Send another message →
+            </button>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </div>
+</section>
+<div id="toast" class="toast">
+  <span id="toastMsg"></span>
+</div>
+
+<!-- ==================== FOOTER ==================== -->
+<footer class="relative bg-zinc-950 border-t border-zinc-900 overflow-hidden">
+
+  <!-- Background glow -->
+  <div class="absolute top-0 left-1/2 -translate-x-1/2 w-96 h-px bg-gradient-to-r from-transparent via-accent/40 to-transparent"></div>
+  <div class="absolute -top-24 left-1/2 -translate-x-1/2 w-72 h-72 bg-accent/4 rounded-full blur-3xl pointer-events-none"></div>
+
+  <!-- Main footer content -->
+  <div class="max-w-6xl mx-auto px-6 pt-12 pb-8">
+
+    <!-- Top row -->
+    <div class="grid grid-cols-1 md:grid-cols-3 gap-10 pb-10 border-b border-zinc-900">
+
+      <!-- Brand -->
+      <div class="space-y-4">
+        <div class="flex items-center gap-3">
+          <span class="font-display font-800 text-2xl">
+            <span class="gradient-text">MI</span><span class="text-zinc-600">.</span>
+          </span>
+          <div class="h-4 w-px bg-zinc-800"></div>
+          <span class="font-mono text-xs text-zinc-600 tracking-widest uppercase">Portfolio</span>
+        </div>
+        <p class="text-xs text-zinc-500 leading-relaxed max-w-xs">
+          Full-stack developer & IoT engineer based in Bandung. Building reliable, scalable digital products.
+        </p>
+        <!-- Visitor counter -->
+        <div class="visitor-counter" id="visitorCounter">
+          <div class="vc-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5">
+              <path stroke-linecap="round" stroke-linejoin="round" d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.964-7.178z"/>
+              <path stroke-linecap="round" stroke-linejoin="round" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/>
+            </svg>
+          </div>
+          <div class="vc-info">
+            <span class="vc-number"><span class="vc-digit" id="vcDigit">···</span></span>
+            <span class="vc-label">visitors</span>
+          </div>
+          <div class="vc-pulse"></div>
+        </div>
+      </div>
+
+      <!-- Quick Links -->
+      <div class="space-y-4">
+        <span class="font-mono text-xs text-accent tracking-widest uppercase">Navigation</span>
+        <div class="grid grid-cols-2 gap-2">
+          <a href="#hero"       class="footer-link">Home</a>
+          <a href="#about"      class="footer-link">About</a>
+          <a href="#skills"     class="footer-link">Skills</a>
+          <a href="#projects"   class="footer-link">Projects</a>
+          <a href="#experience" class="footer-link">Experience</a>
+          <a href="#education"  class="footer-link">Education</a>
+          <a href="#contact"    class="footer-link">Contact</a>
+        </div>
+      </div>
+
+      <!-- Contact & Social -->
+      <div class="space-y-4">
+        <span class="font-mono text-xs text-accent tracking-widest uppercase">Connect</span>
+        <div class="space-y-3">
+
+          <a href="mailto:your@email.com"
+            class="flex items-center gap-3 group">
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M3 8l7.89 5.26a2 2 0 002.22 0L21 8M5 19h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-mono">your@email.com</span>
+          </a>
+
+          <a href="https://github.com/IQ1341" target="_blank"
+            class="flex items-center gap-3 group">
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M12 0C5.37 0 0 5.37 0 12c0 5.3 3.438 9.8 8.205 11.385.6.113.82-.258.82-.577v-2.165c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.108-.776.418-1.305.762-1.605-2.665-.3-5.467-1.332-5.467-5.93 0-1.31.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.51 11.51 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.29-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.61-2.807 5.625-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.63-5.37-12-12-12z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-mono">github.com/IQ1341</span>
+          </a>
+
+          <a href="https://www.linkedin.com/in/iq134l03/" target="_blank"
+            class="flex items-center gap-3 group">
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-accent transition-colors" fill="currentColor" viewBox="0 0 24 24">
+                <path d="M20.447 20.452h-3.554v-5.569c0-1.328-.027-3.037-1.852-3.037-1.853 0-2.136 1.445-2.136 2.939v5.667H9.351V9h3.414v1.561h.046c.477-.9 1.637-1.85 3.37-1.85 3.601 0 4.267 2.37 4.267 5.455v6.286zM5.337 7.433c-1.144 0-2.063-.926-2.063-2.065 0-1.138.92-2.063 2.063-2.063 1.14 0 2.064.925 2.064 2.063 0 1.139-.925 2.065-2.064 2.065zm1.782 13.019H3.555V9h3.564v11.452zM22.225 0H1.771C.792 0 0 .774 0 1.729v20.542C0 23.227.792 24 1.771 24h20.451C23.2 24 24 23.227 24 22.271V1.729C24 .774 23.2 0 22.222 0h.003z"/>
+              </svg>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-mono">linkedin.com/in/iq134l03</span>
+          </a>
+
+          <a href="https://www.devgoo.my.id/" target="_blank"
+            class="flex items-center gap-3 group">
+            <div class="w-7 h-7 rounded-lg bg-zinc-900 border border-zinc-800 flex items-center justify-center group-hover:border-accent/40 group-hover:bg-accent/10 transition-all duration-200">
+              <svg class="w-3.5 h-3.5 text-zinc-500 group-hover:text-accent transition-colors" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 12a9 9 0 01-9 9m9-9a9 9 0 00-9-9m9 9H3m9 9a9 9 0 01-9-9m9 9c1.657 0 3-4.03 3-9s-1.343-9-3-9m0 18c-1.657 0-3-4.03-3-9s1.343-9 3-9m-9 9a9 9 0 019-9"/>
+              </svg>
+            </div>
+            <span class="text-xs text-zinc-500 group-hover:text-zinc-300 transition-colors font-mono">devgoo.my.id</span>
+          </a>
+
+        </div>
+      </div>
+
+    </div>
+
+    <!-- Bottom bar -->
+    <div class="flex flex-col sm:flex-row items-center justify-between gap-4 pt-6">
+
+      <!-- Copyright -->
+      <p class="text-xs font-mono text-zinc-600 flex items-center gap-2">
+        <span>© 2025 Muhammad Iqbal</span>
+        <span class="text-zinc-800">·</span>
+        <span>Crafted with</span>
+        <span class="text-red-500 animate-pulse">♥</span>
+        <span>& lots of ☕</span>
+      </p>
+
+      <!-- Status badges -->
+      <div class="flex items-center gap-3">
+        <div class="flex items-center gap-1.5 text-xs font-mono text-zinc-600">
+          <span class="w-1.5 h-1.5 bg-accent rounded-full animate-pulse"></span>
+          Open to Work
+        </div>
+        <span class="text-zinc-800">·</span>
+        <span class="text-xs font-mono text-zinc-700">Bandung, ID</span>
+        <span class="text-zinc-800">·</span>
+        <button onclick="window.scrollTo({top:0,behavior:'smooth'})"
+          class="footer-back-top group flex items-center gap-1.5 text-xs font-mono text-zinc-600 hover:text-accent transition-colors">
+          back to top
+          <svg class="w-3 h-3 group-hover:-translate-y-0.5 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 15l7-7 7 7"/>
+          </svg>
+        </button>
+      </div>
+
+    </div>
+  </div>
+</footer>
+
+<!-- ==================== JAVASCRIPT ==================== -->
+<script data-cfasync="false" src="/cdn-cgi/scripts/5c5dd728/cloudflare-static/email-decode.min.js"></script>
+
+<script src="script.js"></script>
+</body>
+</html>
